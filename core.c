@@ -19,9 +19,9 @@ void initGame()
 
 void runGame()
 {
-	player.x = 50;
-	player.y = 50;
+	player.x = player.y = player.w = player.h = 50;
 	player.name = "Mike";
+	player.moveSpeed = 2.0f;
 	
 	while(running)
 	{
@@ -42,8 +42,8 @@ void runGame()
 		SDL_Rect rect;
 		rect.x = player.x;
 		rect.y = player.y;
-		rect.w = 50;
-		rect.h = 50;
+		rect.w = player.w;
+		rect.h = player.h;
 		SDL_RenderFillRect(renderer, &rect);
 		SDL_RenderPresent(renderer);
 	}

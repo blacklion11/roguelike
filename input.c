@@ -35,6 +35,18 @@ int getInput()
 						break;
 				}
 				break;
+			case SDL_MOUSEBUTTONDOWN:
+				if(e.button.button == SDL_BUTTON_LEFT)
+				{
+					movePlayerXY(e.button.x, e.button.y);
+					//player.x = e.button.x - (player.w >> 1);
+					//player.y = e.button.y - (player.h >> 1);
+				}
+				if(e.button.button == SDL_BUTTON_RIGHT)
+				{
+					
+				}
+				break;
 		}
 	}
 	return 0;
