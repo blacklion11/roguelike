@@ -6,6 +6,11 @@ extern SDL_Window *window;
 extern SDL_Renderer *renderer;
 extern SDL_Surface *screen;
 
+SDL_Color fgColor = {255, 255, 255};
+SDL_Color bgColor = {0, 0, 0};
+extern TTF_Font *font;
+SDL_Rect txtLoc = {10, 10, 500, 50};
+
 //System Running Variables
 bool running = true;
 
@@ -22,6 +27,9 @@ void runGame()
 	player.x = player.y = player.w = player.h = 50;
 	player.name = "Mike";
 	player.moveSpeed = 2.0f;
+	
+	
+	SDL_Surface *txtSurface = TTF_RenderText_Shaded(font, "This is my text.", fgColor, bgColor);
 	
 	while(running)
 	{
@@ -46,9 +54,13 @@ void runGame()
 		rect.h = player.h;
 		SDL_RenderFillRect(renderer, &rect);
 		SDL_RenderPresent(renderer);
+		
+		//Display Debug Information
+		txtSurface = TTF_RenderText_Shaded(font, "This is my text.", fgColor, bgColor);
+		SDL_BlitSurface(txtSurface, NULL, screen, &txtLoc);
 	}
 	
-	
+	SDL_FreeSurface(txtSurface);
 	closeGame();
 }
 

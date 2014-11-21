@@ -5,8 +5,14 @@ SDL_Window *window;
 SDL_Renderer *renderer;
 SDL_Surface *screen;
 
+TTF_Font *font;
+
+/*
+*	Initializes SDL and all SDL extension libraries
+*/
 void initSDL(int width, int height)
 {
+	
 	SDL_Init(SDL_INIT_EVERYTHING);
 	window = SDL_CreateWindow("Game Window",
 							  SDL_WINDOWPOS_UNDEFINED,
@@ -20,10 +26,14 @@ void initSDL(int width, int height)
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
+	
+	TTF_Init();
+	font = TTF_OpenFont("fonts/c64.ttf", 16);
 }
 
 void closeSDL()
 {
+	TTF_CloseFont(font);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 }
