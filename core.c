@@ -1,35 +1,58 @@
 #include"core.h"
 #include"player.h"
 
-// SDL Variables
+/*
+* SDL Variables
+*/
+	// Window pointer
 extern SDL_Window *window;
+	// Renderer pointer
 extern SDL_Renderer *renderer;
+	// Window screen pointer (this is the screen actually displayed)
 extern SDL_Surface *screen;
-
-SDL_Color fgColor = {255, 255, 255};
-SDL_Color bgColor = {0, 0, 0};
+	// Surface used for debug information
+SDL_Surface *debugScreen;
+	// The clear color used on the renderer
+SDL_Color clearColor = {0, 0, 0};
+	// The color used text
+SDL_Color textColor = {255, 255, 255};
+	// The TTF font being used
 extern TTF_Font *font;
-SDL_Rect txtLoc = {10, 10, 500, 50};
 
-//System Running Variables
+/*
+* System Running Variables
+*/
 bool running = true;
 
-//Player variable
+
+/*
+* Player variables
+*/
+	//The player
 Player player;
+
+/*
+* World variables
+*/
+	//The world
+World world;
+
 
 void initGame()
 {
-	initSDL(640, 480);
+	initSDL();
+	initWorld();
 }
 
 void runGame()
 {
-	player.x = player.y = player.w = player.h = 50;
+	player.x = player.y = 100;
+	player.w = player.h = 12;
 	player.name = "Mike";
 	player.moveSpeed = 2.0f;
 	
 	
-	SDL_Surface *txtSurface = TTF_RenderText_Shaded(font, "This is my text.", fgColor, bgColor);
+	
 	
 	while(running)
 	{
@@ -46,21 +69,25 @@ void runGame()
 		//Render
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-		SDL_Rect rect;
-		rect.x = player.x;
-		rect.y = player.y;
-		rect.w = player.w;
-		rect.h = player.h;
-		SDL_RenderFillRect(renderer, &rect);
-		SDL_RenderPresent(renderer);
+		//SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+		
+		renderWorld(renderer, &world);
+		
 		
 		//Display Debug Information
-		txtSurface = TTF_RenderText_Shaded(font, "This is my text.", fgColor, bgColor);
-		SDL_BlitSurface(txtSurface, NULL, screen, &txtLoc);
+		/*
+		debugScreen = TTF_RenderText_Solid(font, "This is a test", textColor);
+		
+		SDL_Texture *temp;
+		temp = SDL_CreateTextureFromSurface(renderer, debugScreen);
+		SDL_RenderCopy(renderer, temp, NULL, NULL);
+		SDL_RenderPresent(renderer);
+		
+		SDL_DestroyTexture(temp);
+		*/
 	}
 	
-	SDL_FreeSurface(txtSurface);
+	//SDL_FreeSurface(txtSurface);
 	closeGame();
 }
 
